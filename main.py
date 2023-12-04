@@ -1,9 +1,9 @@
 from random import randint
 
 grid = [["🟥","🟥","🟥","🟥"],
-        ["⬜","⬜","⬜","⬜"],
-        ["⬜","⬜","⬜","⬜"],
-        ["⬜","⬜","⬜","🟥"]]
+        ["🟥","🟥","🟥","⬜"],
+        ["🟥","⬜","🟥","⬜"],
+        ["🟥","⬜","⬜","🟥"]]
 
 order = ["🟥","🟧","🟨","🟩","🟦","🟪"]
 
@@ -24,7 +24,7 @@ def add_tiles():
 
 def move(direction):
     if direction == "right":
-        for k in range(2):
+        for k in range(4):
             for i in range(2, -1, -1):  # Iterate from the second-to-last column towards the first column
                 for j in range(4):
                     if grid[j][i] == "⬜":
@@ -48,7 +48,7 @@ def move(direction):
                         except IndexError:
                             continue
     if direction == "left":
-        for k in range(2):
+        for k in range(4):
             for i in range(1, 4):
                 for j in range(4):
                     if grid[j][i] == "⬜":
@@ -71,6 +71,31 @@ def move(direction):
                                 grid[j][i] = "⬜"
                         except IndexError:
                             continue
+    if direction == "down":
+        for k in range(4):
+            for i in range(4):
+                for j in range(2, -1, -1):
+                    if grid[j][i] == "⬜":
+                        continue
+                    else:
+                        try:
+                            if grid[j+1][i] == grid[j][i]:
+                                grid[j+1][i] = order[order.index(grid[j+1][i]) + 1]
+                                grid[j][i] = "⬜"
+                        except IndexError:
+                            continue
+            for i in range(4):  # Iterate from the second-to-last column towards the first column
+                for j in range(4):
+                    if grid[j][i] == "⬜":
+                        continue
+                    else:
+                        try:
+                            if grid[j+1][i] == "⬜":
+                                grid[j+1][i] = grid[j][i]
+                                grid[j][i] = "⬜"
+                        except IndexError:
+                            continue
+
 display_grid()
 print("")
 move("left")
