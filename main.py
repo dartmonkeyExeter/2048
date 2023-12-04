@@ -71,6 +71,30 @@ def move(direction):
                                 grid[j][i] = "⬜"
                         except IndexError:
                             continue
+    if direction == "up":
+        for k in range(4):
+            for i in range(4):
+                for j in range(1,4):
+                    if grid[j][i] == "⬜":
+                        continue
+                    else:
+                        try:
+                            if grid[j-1][i] == grid[j][i]:
+                                grid[j-1][i] = order[order.index(grid[j-1][i]) + 1]
+                                grid[j][i] = "⬜"
+                        except IndexError:
+                            continue
+            for i in range(4):  # Iterate from the second-to-last column towards the first column
+                for j in range(3,0,-1):
+                    if grid[j][i] == "⬜":
+                        continue
+                    else:
+                        try:
+                            if grid[j-1][i] == "⬜":
+                                grid[j-1][i] = grid[j][i]
+                                grid[j][i] = "⬜"
+                        except IndexError:
+                            continue
     if direction == "down":
         for k in range(4):
             for i in range(4):
@@ -98,5 +122,5 @@ def move(direction):
 
 display_grid()
 print("")
-move("left")
+move("up")
 display_grid()
