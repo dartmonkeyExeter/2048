@@ -1,9 +1,9 @@
 from random import randint
 
-grid = [["⬜","⬜","⬜","⬜"],
-        ["⬜","⬜","⬜","⬜"],
-        ["⬜","⬜","⬜","⬜"],
-        ["⬜","⬜","⬜","⬜"]]
+grid = [["🎄","🎄","🎄","⬜"],
+        ["🎄","🎄","⬜","⬜"],
+        ["🎄","⬜","🎄","🎄"],
+        ["🎄","🎄","🎄","🎄"]]
 point = 0
 
 
@@ -77,18 +77,19 @@ def move(direction, points):
                         except IndexError:
                             continue
     if direction == "up":
-        for i in range(4):
-            for j in range(1,4):
-                if grid[j][i] == "⬜":
-                    continue
-                else:
-                    try:
-                        if grid[j-1][i] == grid[j][i]:
-                            grid[j-1][i] = order[order.index(grid[j-1][i]) + 1]
-                            grid[j][i] = "⬜"
-                            points += points_order[order.index(grid[j-1][i]) + 1]
-                    except IndexError:
+        for k in range(2):
+            for i in range(4):
+                for j in range(1,4):
+                    if grid[j][i] == "⬜":
                         continue
+                    else:
+                        try:
+                            if grid[j-1][i] == grid[j][i]:
+                                grid[j-1][i] = order[order.index(grid[j-1][i]) + 1]
+                                grid[j][i] = "⬜"
+                                points += points_order[order.index(grid[j-1][i]) + 1]
+                        except IndexError:
+                            continue
         for k in range(4):
             for i in range(4):  # Iterate from the second-to-last column towards the first column
                 for j in range(3,0,-1):
@@ -131,7 +132,7 @@ def move(direction, points):
 def game_loop():
     point = 0
     valid_directions = ["right", "left", "up", "down"]
-    add_tiles()
+    #add_tiles()
     display_grid()
     while True:
         dir = input("direction: ")
