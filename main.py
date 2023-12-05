@@ -4,8 +4,11 @@ grid = [["⬜","⬜","⬜","⬜"],
         ["⬜","⬜","⬜","⬜"],
         ["⬜","⬜","⬜","⬜"],
         ["⬜","⬜","⬜","⬜"]]
+point = 0
 
-order = ["🟥","🟧","🟨","🟩","🟦","🟪"]
+
+order = ["🎄", "🎅", "🤶", "⛄", "🎁", "🔔", "🎉", "🌟", "❅", "🕯️", "🍪", "🥛"]
+points_order = [2] + [2**i for i in range(1, 12)]
 
 def display_grid():
     for i in grid:
@@ -17,12 +20,12 @@ def add_tiles():
         col = randint(0,3)
         if grid[row][col] == "⬜":
             if randint(1,100) < 90:
-                grid[row][col] = "🟥"
+                grid[row][col] = "🎄"
             else:
-                grid[row][col] = "🟧"
+                grid[row][col] = "🎅"
             break
 
-def move(direction):
+def move(direction, points):
     if direction == "right":
         for k in range(4):
             for i in range(2, -1, -1):  # Iterate from the second-to-last column towards the first column
@@ -34,6 +37,7 @@ def move(direction):
                             if grid[j][i+1] == grid[j][i]:
                                 grid[j][i+1] = order[order.index(grid[j][i+1]) + 1]
                                 grid[j][i] = "⬜"
+                                points += points_order[order.index(grid[j][i+1]) + 1]
                         except IndexError:
                             continue
             for i in range(4):  # Iterate from the second-to-last column towards the first column
@@ -58,6 +62,7 @@ def move(direction):
                             if grid[j][i-1] == grid[j][i]:
                                 grid[j][i-1] = order[order.index(grid[j][i-1]) + 1]
                                 grid[j][i] = "⬜"
+                                points += points_order[order.index(grid[j][i-1]) + 1]
                         except IndexError:
                             continue
             for i in range(3,0,-1):
@@ -82,6 +87,7 @@ def move(direction):
                             if grid[j-1][i] == grid[j][i]:
                                 grid[j-1][i] = order[order.index(grid[j-1][i]) + 1]
                                 grid[j][i] = "⬜"
+                                points += points_order[order.index(grid[j-1][i]) + 1]
                         except IndexError:
                             continue
             for i in range(4):  # Iterate from the second-to-last column towards the first column
@@ -106,6 +112,7 @@ def move(direction):
                             if grid[j+1][i] == grid[j][i]:
                                 grid[j+1][i] = order[order.index(grid[j+1][i]) + 1]
                                 grid[j][i] = "⬜"
+                                points += points_order[order.index(grid[j+1][i]) + 1]
                         except IndexError:
                             continue
             for i in range(4):  # Iterate from the second-to-last column towards the first column
@@ -119,16 +126,20 @@ def move(direction):
                                 grid[j][i] = "⬜"
                         except IndexError:
                             continue
+    return points                        
 
 def game_loop():
+    point = 0
     valid_directions = ["right", "left", "up", "down"]
-    
+    add_tiles()
+    display_grid()
     while True:
-        add_tiles()
-        display_grid()
         dir = input("direction: ")
         if dir in valid_directions:
-            move(dir)
+            point = move(dir, point)
+            add_tiles()
+            print(f'points: {point}')
+            display_grid()
         else:
             print("invalid input")
 
