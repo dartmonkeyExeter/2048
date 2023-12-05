@@ -1,9 +1,9 @@
 from random import randint
 
-grid = [["🟥","🟥","🟥","🟥"],
-        ["🟥","🟥","🟥","⬜"],
-        ["🟥","⬜","🟥","⬜"],
-        ["🟥","⬜","⬜","🟥"]]
+grid = [["⬜","⬜","⬜","⬜"],
+        ["⬜","⬜","⬜","⬜"],
+        ["⬜","⬜","⬜","⬜"],
+        ["⬜","⬜","⬜","⬜"]]
 
 order = ["🟥","🟧","🟨","🟩","🟦","🟪"]
 
@@ -120,7 +120,16 @@ def move(direction):
                         except IndexError:
                             continue
 
-display_grid()
-print("")
-move("up")
-display_grid()
+def game_loop():
+    valid_directions = ["right", "left", "up", "down"]
+    
+    while True:
+        add_tiles()
+        display_grid()
+        dir = input("direction: ")
+        if dir in valid_directions:
+            move(dir)
+        else:
+            print("invalid input")
+
+game_loop()
